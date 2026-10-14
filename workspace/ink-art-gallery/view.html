@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>작품 감상 - 인크 아트 갤러리</title>
+    <link rel="stylesheet" href="css/view-style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <header class="view-header">
+            <h1 id="site-title">인크 아트 갤러리</h1>
+            <p id="subtitle">작품 감상</p>
+        </header>
+
+        <!-- 네비게이션 -->
+        <nav class="navigation">
+            <a href="index.html" class="nav-link">메인 페이지</a>
+            <a href="upload.html" class="nav-link">작품 업로드</a>
+            <a href="view.html" class="nav-link active">작품 감상</a>
+        </nav>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="main-content">
+            <!-- 카테고리 섹션 -->
+            <section class="categories-section">
+                <h2>카테고리</h2>
+                <div id="category-list" class="category-list">
+                    <!-- 카테고리 목록이 여기에 표시됩니다 -->
+                </div>
+            </section>
+
+            <hr style="margin: 60px 0; border: none; border-top: 1px solid #000;">
+
+            <!-- 작품 리스트 섹션 -->
+            <section class="works-section">
+                <h2>작품 목록</h2>
+                <div id="works-list" class="works-grid">
+                    <!-- 작품 목록이 여기에 표시됩니다 -->
+                </div>
+            </section>
+        </main>
+
+        <!-- 푸터 -->
+        <footer class="view-footer">
+            <p>&copy; 2026 인크 아트 갤러리</p>
+        </footer>
+    </div>
+
+    <!-- 확대 모달 -->
+    <div id="art-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <img id="modal-image" src="" alt="작품 이미지" class="modal-image">
+            <h2 id="modal-title" class="modal-title"></h2>
+            <p id="modal-description" class="modal-description"></p>
+        </div>
+    </div>
+
+    <script src="js/view.js"></script>
+</body>
+</html>

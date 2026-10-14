@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인크 아트 갤러리 - 메인</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <header class="header">
+            <h1 id="site-title">인크 아트 갤러리</h1>
+            <p id="subtitle">먹이로 만든 수묵화 작품 전시</p>
+        </header>
+
+        <!-- 네비게이션 (우측 상단) -->
+        <nav class="navigation header-nav">
+            <a href="upload.html" class="nav-link">작품 업로드</a>
+            <a href="view.html" class="nav-link">작품 감상</a>
+        </nav>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="main-content">
+            <!-- 설정 섹션 (메인 페이지용) -->
+            <section id="settings-section" class="welcome-section" style="display: none;">
+                <h2>사이트 설정</h2>
+                
+                <div class="form-group">
+                    <label for="site-title-input">사이트 제목</label>
+                    <input type="text" id="site-title-input" placeholder="사이트 제목을 입력하세요">
+                </div>
+
+                <div class="form-group">
+                    <label for="subtitle-input">서브타이틀</label>
+                    <input type="text" id="subtitle-input" placeholder="서브타이틀을 입력하세요">
+                </div>
+
+                <!-- 환영 메시지 설정 -->
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid #000;">
+                
+                <h2>환영 메시지 설정</h2>
+                
+                <div class="form-group">
+                    <label for="welcome-title-input">환영 메시지 제목</label>
+                    <input type="text" id="welcome-title-input" placeholder="환영 메시지 제목을 입력하세요">
+                </div>
+
+                <div class="form-group">
+                    <label for="welcome-text-input">환영 메시지 본문</label>
+                    <textarea id="welcome-text-input" rows="3" placeholder="환영 메시지를 입력하세요"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="welcome-subtext-input">환영 메시지 서브텍스트</label>
+                    <input type="text" id="welcome-subtext-input" placeholder="환영 메시지 추가 내용을 입력하세요">
+                </div>
+
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid #000;">
+                
+                <!-- 사이트 설정 저장 버튼 -->
+                <button type="button" onclick="saveSiteSettings()" class="btn btn-primary">사이트 설정 저장</button>
+            </section>
+
+            <!-- 환영 메시지 섹션 (기본 표시) -->
+            <section id="welcome-section" class="welcome-section">
+                <h2 id="welcome-title">ยินดีต้อนรับ</h2>
+                <p id="welcome-text">이 갤러리는 먹이로 만든 수묵화 작품들을 전시하고 있습니다.</p>
+                <p id="welcome-subtext">작품을 감상하거나 새로운 작품을 업로드해보세요!</p>
+            </section>
+
+            <!-- 카테고리 섹션 (위쪽으로 이동) -->
+            <section class="categories-section">
+                <h2></h2>
+                <div id="category-list" class="category-list">
+                    <!-- 카테고리 목록이 여기에 표시됩니다 -->
+                </div>
+            </section>
+        </main>
+
+        <!-- 푸터 -->
+        <footer class="footer">
+            <p>&copy; 2026 인크 아트 갤러리</p>
+        </footer>
+    </div>
+
+    <script src="js/upload.js"></script>
+    
+    <!-- 메인 페이지 전용 함수 추가 -->
+    <script>
+        // 데이터 로드 및 저장 함수
+        function loadGalleryData() {
+            const savedData = localStorage.getItem('inkArtGalleryData');
+            if (savedData) {
+                try {
+                    galleryData = JSON.parse(savedData);
+                    
+                    // 사이트 설정 업데이트
+                    document.getElementById('site-title').textContent = galleryData.title;
+                    document.getElementById('subtitle').textContent = galleryData.subtitle;
+                    
+                    // 환영 메시지 업데이트
+                    const welcomeTitleEl = document.getElementById('welcome-title');
+                    const welcomeTextEl = document.getElementById('welcome-text');
+                    const welcomeSubtextEl = document.getElementById('welcome-subtext');
+                    
+                    if (welcomeTitleEl) welcomeTitleEl.textContent = galleryData.welcomeTitle || 'ยินดีต้อนรับ';
+                    if (welcomeTextEl) welcomeTextEl.textContent = galleryData.welcomeText || '이 갤러리는 먹이로 만든 수묵화 작품들을 전시하고 있습니다.';
+                    if (welcomeSubtextEl) welcomeSubtextEl.textContent = galleryData.welcomeSubtext || '작품을 감상하거나 새로운 작품을 업로드해보세요!';
+                    
+                } catch (e) {
+                    console.error('데이터 파싱 실패:', e);
+                    saveToLocalStorage();
+                }
+            } else {
+                saveToLocalStorage();
+            }
+        }
+
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem('inkArtGalleryData', JSON.stringify(galleryData));
+            } catch (e) {
+                console.error('localStorage 저장 실패:', e);
+                alert('저장 공간 부족입니다. 이미지가 많을 경우 삭제해주세요.');
+            }
+        }
+
+        // 카테고리 렌더링 함수
+        function renderCategories() {
+            const categoryList = document.getElementById('category-list');
+            
+            if (!categoryList) return;
+            
+            galleryData.categories.forEach((category, index) => {
+                const categoryItem = document.createElement('div');
+                categoryItem.className = 'category-item hover-effect';
+                categoryItem.textContent = category;
+                
+                categoryItem.addEventListener('click', () => {
+                    alert(`${category} 카테고리에 대한 필터링 기능은 추가 예정입니다.`);
+                });
+                
+                categoryList.appendChild(categoryItem);
+            });
+        }
+
+        // 사이트 설정 저장 함수 (메인 페이지용)
+        function saveSiteSettings() {
+            const siteTitleInput = document.getElementById('site-title-input');
+            const subtitleInput = document.getElementById('subtitle-input');
+            const welcomeTitleInput = document.getElementById('welcome-title-input');
+            const welcomeTextInput = document.getElementById('welcome-text-input');
+            const welcomeSubtextInput = document.getElementById('welcome-subtext-input');
+            const categoryCountInput = document.getElementById('category-count-input');
+
+            // 현재 데이터 가져오기
+            const savedData = localStorage.getItem('inkArtGalleryData');
+            let galleryData;
+            
+            if (savedData) {
+                try {
+                    galleryData = JSON.parse(savedData);
+                } catch (e) {
+                    alert('데이터 파싱 오류가 발생했습니다.');
+                    return;
+                }
+            } else {
+                galleryData = {
+                    title: '인크 아트 갤러리',
+                    subtitle: '먹이로 만든 수묵화 작품 전시',
+                    welcomeTitle: 'ยินดีต้อนรับ',
+                    welcomeText: '이 갤러리는 먹이로 만든 수묵화 작품들을 전시하고 있습니다.',
+                    welcomeSubtext: '작품을 감상하거나 새로운 작품을 업로드해보세요!',
+                    categories: ['수묵화'],
+                    works: []
+                };
+            }
+
+            // 사이트 설정 업데이트
+            galleryData.title = siteTitleInput ? siteTitleInput.value.trim() : '인크 아트 갤러리';
+            galleryData.subtitle = subtitleInput ? subtitleInput.value.trim() : '먹이로 만든 수묵화 작품 전시';
+
+            // 환영 메시지 업데이트
+            const welcomeTitleInputEl = document.getElementById('welcome-title-input');
+            const welcomeTextInputEl = document.getElementById('welcome-text-input');
+            const welcomeSubtextInputEl = document.getElementById('welcome-subtext-input');
+
+            if (welcomeTitleInputEl) galleryData.welcomeTitle = welcomeTitleInputEl.value.trim();
+            if (welcomeTextInputEl) galleryData.welcomeText = welcomeTextInputEl.value;
+            if (welcomeSubtextInputEl) galleryData.welcomeSubtext = welcomeSubtextInputEl.value;
+
+            // 카테고리 개수 업데이트
+            const categoryCount = parseInt(categoryCountInput ? categoryCountInput.value : '1');
+            if (categoryCount > 0) {
+                const currentCategoryCount = galleryData.categories.length;
+                
+                if (currentCategoryCount < categoryCount) {
+                    for (let i = currentCategoryCount; i < categoryCount; i++) {
+                        galleryData.categories.push(`카테고리 ${i + 1}`);
+                    }
+                } else if (currentCategoryCount > categoryCount) {
+                    const categoriesToRemove = currentCategoryCount - categoryCount;
+                    for (let i = 0; i < categoriesToRemove; i++) {
+                        galleryData.categories.pop();
+                    }
+                }
+            }
+
+            // localStorage 에 저장
+            try {
+                localStorage.setItem('inkArtGalleryData', JSON.stringify(galleryData));
+                alert('사이트 설정이 저장되었습니다!');
+                
+                // 메인 페이지 요소 업데이트
+                document.getElementById('site-title').textContent = galleryData.title;
+                document.getElementById('subtitle').textContent = galleryData.subtitle;
+                
+                const welcomeTitleEl = document.getElementById('welcome-title');
+                const welcomeTextEl = document.getElementById('welcome-text');
+                const welcomeSubtextEl = document.getElementById('welcome-subtext');
+                
+                if (welcomeTitleEl) welcomeTitleEl.textContent = galleryData.welcomeTitle || 'ยินดีต้อนรับ';
+                if (welcomeTextEl) welcomeTextEl.textContent = galleryData.welcomeText || '이 갤러리는 먹이로 만든 수묵화 작품들을 전시하고 있습니다.';
+                if (welcomeSubtextEl) welcomeSubtextEl.textContent = galleryData.welcomeSubtext || '작품을 감상하거나 새로운 작품을 업로드해보세요!';
+                
+            } catch (e) {
+                alert('저장 공간 부족입니다. 이미지가 많을 경우 삭제해주세요.');
+            }
+        }
+
+        // 초기화
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGalleryData();
+            renderCategories();
+        });
+    </script>
+</body>
+</html>

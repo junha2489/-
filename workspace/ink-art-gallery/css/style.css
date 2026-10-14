@@ -1,0 +1,247 @@
+/* 기본 스타일 - 미니멀한 디자인 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Apple SDGothic Neo', 'Noto Sans KR', sans-serif;
+    background-color: #ffffff;
+    color: #000000;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* 헤더 스타일 */
+.header {
+    text-align: center;
+    padding: 60px 0;
+    border-bottom: 1px solid #000000;
+    margin-bottom: 40px;
+}
+
+#site-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+}
+
+#subtitle {
+    font-size: 1.2rem;
+    color: #666666;
+}
+
+/* 네비게이션 스타일 (헤더 내 우측 상단) */
+.header-nav {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 또는 우측 정렬 가능 */
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #000000;
+    font-size: 1rem; /* 축소 */
+    padding: 8px 15px; /* 축소 */
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* 메인 콘텐츠 스타일 */
+.main-content {
+    min-height: 60vh;
+}
+
+/* 환영 메시지 섹션 스타일 (수정 가능) */
+#welcome-section {
+    text-align: center;
+    padding: 80px 40px;
+    border: 1px solid #000000;
+    margin-bottom: 60px;
+}
+
+#welcome-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+#welcome-text,
+#welcome-subtext {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+/* 카테고리 섹션 스타일 (위쪽으로 이동) */
+.categories-section {
+    padding-top: 40px; /* 위쪽 이동 */
+}
+
+.categories-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+}
+
+.category-list {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.category-item {
+    padding: 20px 40px;
+    border: 1px solid #000000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-item:hover {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* 마우스 오버 입체 효과 */
+.hover-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.hover-effect::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: top 0.3s ease;
+}
+
+.hover-effect:hover::before {
+    top: 0;
+}
+
+/* 이미지 스타일 */
+.art-image {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #000000;
+    padding: 10px;
+    background-color: #ffffff;
+    transition: transform 0.3s ease;
+}
+
+.art-image:hover {
+    transform: scale(1.05);
+}
+
+/* 확대 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.modal-image {
+    max-width: 100%;
+    max-height: 80vh;
+    border: 2px solid #ffffff;
+}
+
+.close-modal {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: #ffffff;
+    font-size: 3rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #ff6b6b;
+}
+
+/* 푸터 스타일 */
+.footer {
+    text-align: center;
+    padding: 40px 0;
+    margin-top: 80px;
+    border-top: 1px solid #000000;
+}
+
+.footer p {
+    font-size: 0.9rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 15px;
+    }
+
+    #site-title {
+        font-size: 2rem;
+    }
+
+    #subtitle {
+        font-size: 1rem;
+    }
+
+    .header-nav {
+        gap: 20px;
+    }
+
+    .nav-link {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+
+    #welcome-section {
+        padding: 40px 20px;
+    }
+
+    #welcome-title {
+        font-size: 1.5rem;
+    }
+
+    #welcome-text,
+    #welcome-subtext {
+        font-size: 1rem;
+    }
+
+    .category-list {
+        gap: 15px;
+    }
+
+    .category-item {
+        padding: 15px 25px;
+    }
+}
